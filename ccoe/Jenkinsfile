@@ -1,0 +1,14 @@
+@Library('SharedLib-MCM') _
+
+node {
+    stage('Call ') {
+        try{
+            dockerBuilder_aa()
+        }
+        catch (err) {
+            print err
+            currentBuild.result = 'FAILURE'
+            throw err
+        }
+    }
+}

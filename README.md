@@ -1,1 +1,1 @@
-# faqdev
+# Repositório Resetado

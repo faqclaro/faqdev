@@ -1,0 +1,38 @@
+# Build stage
+FROM node:18-alpine AS builder
+WORKDIR /usr/src/app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy application code
+COPY . .
+
+# Optionally, if you want to use .env files directly
+COPY .env.production ./.env
+
+# Build the Next.js application
+RUN npm run build
+
+# Production stage
+FROM node:18-alpine AS runner
+WORKDIR /usr/src/app
+
+# Non-root user setup for better security
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+# Copy necessary files
+COPY --from=builder /usr/src/app/public ./public
+COPY --from=builder /usr/src/app/.next ./.next
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+
+# User nextjs
+USER nextjs
+
+# Expose the port Next.js runs on
+EXPOSE 3000
+
+# Run the Next.js production server
+CMD ["npm", "start"]

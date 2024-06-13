@@ -9,7 +9,7 @@ import Header from '../components/Header';
 
 export default function Home({ pageContent, globalLinksMenu }) {
   
-  const { title, title_2, Banner: bannerArray, grid: gridArray, searchPlaceholder, accordionItems } = pageContent;
+  const { title, title_2, Banner: bannerArray, grid: gridArray, searchPlaceholder, accordionItems, metaRobots } = pageContent;
   
   // Renderização condicional do banner
   const bannerHero = bannerArray?.length ? <Banner banner={bannerArray[0]} /> : null;
@@ -29,6 +29,12 @@ export default function Home({ pageContent, globalLinksMenu }) {
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content={metaRobots || 'index,follow'}/>
+        <meta property="og:title" content={metaTitle}/>
+        <meta property="og:description" content={metaDescription}/>
+        <meta property="og:image" content="https://a.storyblok.com/f/283011/80x80/4166c5cc1b/claro-faq.webp"/>
+        <meta property="og:type" content="FAQ"/>
+        <meta property="og:url" content={canonicalUrl}/>
       </Head>
       <Header {...globalLinksMenu}/>
       {bannerHero}

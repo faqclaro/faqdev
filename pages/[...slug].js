@@ -40,7 +40,7 @@ const renderOptions = {
   },
 };
 
-const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, breadcrumb, globalLinksMenu }) => {
+const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, breadcrumb, globalLinksMenu, metaRobots }) => {
   console.log('HomeDynamic Page Content:', pageContent);
 
   if (!pageContent) {
@@ -59,6 +59,12 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content={metaRobots || 'index,follow'}/>
+        <meta property="og:title" content={metaTitle}/>
+        <meta property="og:description" content={metaDescription}/>
+        <meta property="og:image" content="https://a.storyblok.com/f/283011/80x80/4166c5cc1b/claro-faq.webp"/>
+        <meta property="og:type" content="FAQ"/>
+        <meta property="og:url" content={canonicalUrl}/>
       </Head>
       <Header {...globalLinksMenu}/>
       {bannerHero}
@@ -102,7 +108,7 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
   );
 };
 
-const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDescription, canonicalUrl, globalLinksMenu }) => {
+const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDescription, canonicalUrl, globalLinksMenu, metaRobots }) => {
   if (!articleContent || !articleContent.content) {
     return <p>Loading...</p>;
   }
@@ -115,6 +121,12 @@ const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDe
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content={metaRobots || 'index,follow'}/>
+        <meta property="og:title" content={metaTitle}/>
+        <meta property="og:description" content={metaDescription}/>
+        <meta property="og:image" content="https://a.storyblok.com/f/283011/80x80/4166c5cc1b/claro-faq.webp"/>
+        <meta property="og:type" content="FAQ"/>
+        <meta property="og:url" content={canonicalUrl}/>
       </Head>
       <Header {...globalLinksMenu}/>
       <div className="mdn-Container">

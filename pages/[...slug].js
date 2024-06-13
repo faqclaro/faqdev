@@ -53,7 +53,7 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
   console.log('Accordion items:', accordionItems);
 
   return (
-    <>
+    <main>
       <Head>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
@@ -96,7 +96,7 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
           </div>
         )}
       </div>
-    </>
+    </main>
   );
 };
 
@@ -108,7 +108,7 @@ const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDe
   const htmlContent = render(articleContent.content, renderOptions);
 
   return (
-    <>
+    <main>
       <Head>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
@@ -137,7 +137,7 @@ const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDe
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 

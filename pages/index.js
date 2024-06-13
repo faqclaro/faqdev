@@ -23,7 +23,7 @@ export default function Home({ pageContent }) {
   const accordionContent = pageContent.Accordion;
 
   return (
-    <>
+    <main>
       <Head>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
@@ -59,7 +59,7 @@ export default function Home({ pageContent }) {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }
 

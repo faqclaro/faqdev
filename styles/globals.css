@@ -40,3 +40,13 @@ a {
   background-color: white;
   padding: 10px 10px 10px 45px;
 }
+
+/* Para que o FOOTER fique sempre na base da janela do navegador. */
+#__next{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main{
+  flex-grow: 1;
+}

@@ -4,8 +4,9 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html lang="pt-br">
         <Head>
+        <link rel="shortcut icon" href="https://www.claro.com.br/favicon.ico"></link>
           {/* Reset CSS */}
           <link rel="stylesheet" href="https://mondrian.claro.com.br/vanilla/reset.css" />
           {/* Tokens CSS */}

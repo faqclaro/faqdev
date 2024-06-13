@@ -10,6 +10,8 @@ import Breadcrumb from '../components/Breadcrumb';
 import { render } from 'storyblok-rich-text-react-renderer';
 import AccordionCategory from '../components/AccordionCategory';
 import { Heading, Text, Link } from 'mondrian-react';
+import Header from "../components/Header";
+import Script from "next/script";
 
 const headingResolver = (children, { level }) => {
   const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
@@ -39,7 +41,7 @@ const renderOptions = {
   },
 };
 
-const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, breadcrumb }) => {
+const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, breadcrumb, globalLinksMenu, metaRobots }) => {
   console.log('HomeDynamic Page Content:', pageContent);
 
   if (!pageContent) {
@@ -53,12 +55,24 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
   console.log('Accordion items:', accordionItems);
 
   return (
-    <>
+    <main>
       <Head>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content={metaRobots || 'index,follow'}/>
+        <meta property="og:title" content={metaTitle}/>
+        <meta property="og:description" content={metaDescription}/>
+        <meta property="og:image" content="https://a.storyblok.com/f/283011/80x80/4166c5cc1b/claro-faq.webp"/>
+        <meta property="og:type" content="FAQ"/>
+        <meta property="og:url" content={canonicalUrl}/>
       </Head>
+      <Script
+        src="https://plugin.handtalk.me/web/latest/handtalk.min.js"
+        strategy="lazyOnload"
+        onLoad={() => {}}
+      />
+      <Header {...globalLinksMenu}/>
       {bannerHero}
       <div className="mdn-Container">
         <div className="mdn-Row">
@@ -78,7 +92,7 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
         </div>
         {gridArray && gridArray.length > 0 && (
           <div className="mdn-Row">
-            <div className="mdn-Col-xs mdn-u-padding--xs">
+            <div className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
               <Grid gridData={gridArray} />
             </div>
           </div>
@@ -96,11 +110,11 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
           </div>
         )}
       </div>
-    </>
+    </main>
   );
 };
 
-const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDescription, canonicalUrl }) => {
+const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDescription, canonicalUrl, globalLinksMenu, metaRobots }) => {
   if (!articleContent || !articleContent.content) {
     return <p>Loading...</p>;
   }
@@ -108,12 +122,31 @@ const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDe
   const htmlContent = render(articleContent.content, renderOptions);
 
   return (
-    <>
+    <main>
       <Head>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content={metaRobots || 'index,follow'}/>
+        <meta property="og:title" content={metaTitle}/>
+        <meta property="og:description" content={metaDescription}/>
+        <meta property="og:image" content="https://a.storyblok.com/f/283011/80x80/4166c5cc1b/claro-faq.webp"/>
+        <meta property="og:type" content="FAQ"/>
+        <meta property="og:url" content={canonicalUrl}/>
       </Head>
+      <Script
+        src="https://plugin.handtalk.me/web/latest/handtalk.min.js"
+        strategy="lazyOnload"
+        onLoad={() => {
+          var ht = new HT({
+            avatar: "MAYA",
+            align: "top",
+            side: "right",
+            token: "7980f66fc04e8a51e244928880939142"
+          });
+        }}
+      />
+      <Header {...globalLinksMenu}/>
       <div className="mdn-Container">
         <div className="mdn-Row">
           <div className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
@@ -126,7 +159,7 @@ const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDe
           </div>
         </div>
         <div className="mdn-Row mdn-u-padding--sm">
-          <div className="mdn-Col-xs-12 mdn-Col-md-4">
+          <div id="accordionPosts" className="mdn-Col-xs-12 mdn-Col-md-4">
             {accordion.length > 0 ? accordion.map((acc, index) => (
               <AccordionCategory key={index} title={acc.title} menu={acc.menu} />
             )) : <p>No accordion data available.</p>}
@@ -137,7 +170,7 @@ const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDe
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 
@@ -209,6 +242,19 @@ export async function getStaticProps({ params }) {
       }).flat();
     }
 
+    let globalLinksMenu = [];
+    const resCategories = await Storyblok.get('cdn/stories/global/globallinkscategorias', {});
+    const globalLinksReceived = await resCategories.data.story.content.accordion || {};
+
+    function resto(params) {
+      return params.AccordionMenu.map((item) => item)
+    }
+    
+    globalLinksMenu.push( await globalLinksReceived.map((item) => ({
+      'title': item.title,
+      'content': resto(item)
+    })))
+
     const pageProps = {
       metaTitle,
       metaDescription,
@@ -219,6 +265,7 @@ export async function getStaticProps({ params }) {
       accordion: accordionContent,
       component: storyData.component,
       preview: false,
+      globalLinksMenu
     };
 
     console.log('Processed Page Props:', pageProps);

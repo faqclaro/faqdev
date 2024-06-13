@@ -5,10 +5,12 @@ import Banner from '../components/Banner';
 import Grid from '../components/Grid';
 import SearchBar from '../components/SearchBar';
 import Accordion from '../components/Accordion';
+import Header from '../components/Header';
+import Script from "next/script";
 
-export default function Home({ pageContent }) {
+export default function Home({ pageContent, globalLinksMenu }) {
   
-  const { title, title_2, Banner: bannerArray, grid: gridArray, searchPlaceholder, accordionItems } = pageContent;
+  const { title, title_2, Banner: bannerArray, grid: gridArray, searchPlaceholder, accordionItems, metaRobots } = pageContent;
   
   // Renderização condicional do banner
   const bannerHero = bannerArray?.length ? <Banner banner={bannerArray[0]} /> : null;
@@ -23,12 +25,24 @@ export default function Home({ pageContent }) {
   const accordionContent = pageContent.Accordion;
 
   return (
-    <>
+    <main>
       <Head>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content={metaRobots || 'index,follow'}/>
+        <meta property="og:title" content={metaTitle}/>
+        <meta property="og:description" content={metaDescription}/>
+        <meta property="og:image" content="https://a.storyblok.com/f/283011/80x80/4166c5cc1b/claro-faq.webp"/>
+        <meta property="og:type" content="FAQ"/>
+        <meta property="og:url" content={canonicalUrl}/>
       </Head>
+      <Script
+        src="https://plugin.handtalk.me/web/latest/handtalk.min.js"
+        strategy="lazyOnload"
+        onLoad={() => {}}
+      />
+      <Header {...globalLinksMenu}/>
       {bannerHero}
       <div className="mdn-Container">
         <div className="mdn-Row">
@@ -59,7 +73,7 @@ export default function Home({ pageContent }) {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }
 
@@ -68,7 +82,7 @@ export async function getStaticProps(context) {
   
   try {
     const res = await Storyblok.get(`cdn/stories/home`, {
-      version: 'draft',
+      // version: 'draft',
     });
 
     pageContent = res.data.story.content || {}; // Assegure que o conteúdo não é undefined
@@ -91,8 +105,23 @@ export async function getStaticProps(context) {
     pageContent.accordionItems = [];
   }
 
+  let globalLinksMenu = [];
+  const resCategories = await Storyblok.get('cdn/stories/global/globallinkscategorias', {
+    // version: 'draft',
+  });
+  const globalLinksReceived = await resCategories.data.story.content.accordion || {};
+
+  function resto(params) {
+    return params.AccordionMenu.map((item) => item)
+  }
+  
+  globalLinksMenu.push( await globalLinksReceived.map((item) => ({
+    'title': item.title,
+    'content': resto(item)
+  })))
+
   return {
-    props: { pageContent },
+    props: { pageContent, globalLinksMenu },
     revalidate: 60,
   };
 }

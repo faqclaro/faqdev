@@ -4,14 +4,12 @@ import Shortcut from './Shortcut';
 
 const Grid = ({ gridData }) => {
     return (
-      <div className="mdn-Container">
-        <div className="mdn-Row">
-          {gridData.map((shortcutData) => (
-            <div key={shortcutData._uid} className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
-              <Shortcut shortcutData={shortcutData} />
-            </div>
-          ))}
-        </div>
+      <div className="flex gap-x-3 gap-y-2 flex-wrap">
+        {gridData.map((shortcutData) => (
+          <div key={shortcutData._uid}>
+            <Shortcut shortcutData={shortcutData} />
+          </div>
+        ))}
       </div>
     );
 };

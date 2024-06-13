@@ -43,6 +43,8 @@ const SearchBar = () => {
     }
   };
 
+  const handleFocusOut = async (event) => {setSearchTerm('');}
+
   const fetchSuggestions = async (searchText) => {
     try {
       const response = await axios.get(`/faq/api/suggestions?query=${encodeURIComponent(searchText)}`);
@@ -66,7 +68,7 @@ const SearchBar = () => {
       <fieldset>
         <legend hidden>Preencha este campo</legend>
         <div className="mdn-Input" ref={searchRef}>
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative', background: 'var(--theme-background-color--default)', borderRadius: '14px' }}>
             <i className="mdn-Icon-busca mdn-Icon--md" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}></i>
             <input 
               id="search" 
@@ -74,14 +76,15 @@ const SearchBar = () => {
               type="text" 
               value={searchTerm}
               onChange={handleInputChange}
+              onBlur={handleFocusOut}
               aria-label="Search" 
-              style={{ paddingLeft: '45px' }} // Adicionar espaço para o ícone
+              style={{ paddingLeft: '45px', borderColor : 'var(--theme-toggleColor-Menu-default)' }} // Adicionar espaço para o ícone
             />
             <label htmlFor="search" className="mdn-Input-label">Digite aqui para buscar...</label>
           </div>
           <small className="mdn-Input-errorFeedback">Por favor, preencha este campo corretamente.</small>
           {suggestions.length > 0 && (
-            <ul className="mdn-LinkList" style={{ position: 'absolute', width: '100%', zIndex: 1000 }}>
+            <ul className="mdn-LinkList" style={{ position: 'absolute', width: '100%', zIndex: 1000, backgroundColor: 'var(--theme-background-color--default)' }}>
               {suggestions.map((suggestion, index) => (
                 <li key={index} className="mdn-LinkList-item">
                   <a className="mdn-LinkList-anchor" href="#" onClick={(e) => {

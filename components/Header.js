@@ -12,7 +12,7 @@ export default function Header(headerProps) {
 
   const segments = [
     {
-      title: 'FAQ',
+      title: 'Home',
       href: '/faq',
       isActive: false
     },

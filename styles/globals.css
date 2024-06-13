@@ -50,3 +50,8 @@ a {
 main{
   flex-grow: 1;
 }
+
+
+#accordionPosts .mdn-Accordion-toggle, #accordionPosts .mdn-LinkList{
+  background-color: transparent;
+}

@@ -166,7 +166,7 @@ const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDe
           </div>
         </div>
         <div className="mdn-Row mdn-u-padding--sm">
-          <div className="mdn-Col-xs-12 mdn-Col-md-4">
+          <div id="accordionPosts" className="mdn-Col-xs-12 mdn-Col-md-4">
             {accordion.length > 0 ? accordion.map((acc, index) => (
               <AccordionCategory key={index} title={acc.title} menu={acc.menu} />
             )) : <p>No accordion data available.</p>}

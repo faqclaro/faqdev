@@ -6,6 +6,7 @@ import Grid from '../components/Grid';
 import SearchBar from '../components/SearchBar';
 import Accordion from '../components/Accordion';
 import Header from '../components/Header';
+import Script from "next/script";
 
 export default function Home({ pageContent, globalLinksMenu }) {
   
@@ -36,6 +37,18 @@ export default function Home({ pageContent, globalLinksMenu }) {
         <meta property="og:type" content="FAQ"/>
         <meta property="og:url" content={canonicalUrl}/>
       </Head>
+      <Script
+        src="https://plugin.handtalk.me/web/latest/handtalk.min.js"
+        strategy="lazyOnload"
+        onLoad={() => {
+          var ht = new HT({
+            avatar: "MAYA",
+            align: "top",
+            side: "right",
+            token: "7980f66fc04e8a51e244928880939142"
+          });
+        }}
+      />
       <Header {...globalLinksMenu}/>
       {bannerHero}
       <div className="mdn-Container">

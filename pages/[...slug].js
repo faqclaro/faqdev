@@ -11,6 +11,7 @@ import { render } from 'storyblok-rich-text-react-renderer';
 import AccordionCategory from '../components/AccordionCategory';
 import { Heading, Text, Link } from 'mondrian-react';
 import Header from "../components/Header";
+import Script from "next/script";
 
 const headingResolver = (children, { level }) => {
   const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
@@ -66,6 +67,18 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
         <meta property="og:type" content="FAQ"/>
         <meta property="og:url" content={canonicalUrl}/>
       </Head>
+      <Script
+        src="https://plugin.handtalk.me/web/latest/handtalk.min.js"
+        strategy="lazyOnload"
+        onLoad={() => {
+          var ht = new HT({
+            avatar: "MAYA",
+            align: "top",
+            side: "right",
+            token: "7980f66fc04e8a51e244928880939142"
+          });
+        }}
+      />
       <Header {...globalLinksMenu}/>
       {bannerHero}
       <div className="mdn-Container">
@@ -128,6 +141,18 @@ const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDe
         <meta property="og:type" content="FAQ"/>
         <meta property="og:url" content={canonicalUrl}/>
       </Head>
+      <Script
+        src="https://plugin.handtalk.me/web/latest/handtalk.min.js"
+        strategy="lazyOnload"
+        onLoad={() => {
+          var ht = new HT({
+            avatar: "MAYA",
+            align: "top",
+            side: "right",
+            token: "7980f66fc04e8a51e244928880939142"
+          });
+        }}
+      />
       <Header {...globalLinksMenu}/>
       <div className="mdn-Container">
         <div className="mdn-Row">

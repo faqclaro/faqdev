@@ -5,8 +5,9 @@ import Banner from '../components/Banner';
 import Grid from '../components/Grid';
 import SearchBar from '../components/SearchBar';
 import Accordion from '../components/Accordion';
+import Header from '../components/Header';
 
-export default function Home({ pageContent }) {
+export default function Home({ pageContent, globalLinksMenu }) {
   
   const { title, title_2, Banner: bannerArray, grid: gridArray, searchPlaceholder, accordionItems } = pageContent;
   
@@ -29,6 +30,7 @@ export default function Home({ pageContent }) {
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
       </Head>
+      <Header {...globalLinksMenu}/>
       {bannerHero}
       <div className="mdn-Container">
         <div className="mdn-Row">
@@ -68,7 +70,7 @@ export async function getStaticProps(context) {
   
   try {
     const res = await Storyblok.get(`cdn/stories/home`, {
-      version: 'draft',
+      // version: 'draft',
     });
 
     pageContent = res.data.story.content || {}; // Assegure que o conteúdo não é undefined
@@ -91,8 +93,23 @@ export async function getStaticProps(context) {
     pageContent.accordionItems = [];
   }
 
+  let globalLinksMenu = [];
+  const resCategories = await Storyblok.get('cdn/stories/global/globallinkscategorias', {
+    // version: 'draft',
+  });
+  const globalLinksReceived = await resCategories.data.story.content.accordion || {};
+
+  function resto(params) {
+    return params.AccordionMenu.map((item) => item)
+  }
+  
+  globalLinksMenu.push( await globalLinksReceived.map((item) => ({
+    'title': item.title,
+    'content': resto(item)
+  })))
+
   return {
-    props: { pageContent },
+    props: { pageContent, globalLinksMenu },
     revalidate: 60,
   };
 }

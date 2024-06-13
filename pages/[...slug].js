@@ -10,6 +10,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import { render } from 'storyblok-rich-text-react-renderer';
 import AccordionCategory from '../components/AccordionCategory';
 import { Heading, Text, Link } from 'mondrian-react';
+import Header from "../components/Header";
 
 const headingResolver = (children, { level }) => {
   const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
@@ -39,7 +40,7 @@ const renderOptions = {
   },
 };
 
-const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, breadcrumb }) => {
+const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, breadcrumb, globalLinksMenu }) => {
   console.log('HomeDynamic Page Content:', pageContent);
 
   if (!pageContent) {
@@ -59,6 +60,7 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
       </Head>
+      <Header {...globalLinksMenu}/>
       {bannerHero}
       <div className="mdn-Container">
         <div className="mdn-Row">
@@ -100,7 +102,7 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
   );
 };
 
-const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDescription, canonicalUrl }) => {
+const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDescription, canonicalUrl, globalLinksMenu }) => {
   if (!articleContent || !articleContent.content) {
     return <p>Loading...</p>;
   }
@@ -114,6 +116,7 @@ const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDe
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
       </Head>
+      <Header {...globalLinksMenu}/>
       <div className="mdn-Container">
         <div className="mdn-Row">
           <div className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
@@ -209,6 +212,19 @@ export async function getStaticProps({ params }) {
       }).flat();
     }
 
+    let globalLinksMenu = [];
+    const resCategories = await Storyblok.get('cdn/stories/global/globallinkscategorias', {});
+    const globalLinksReceived = await resCategories.data.story.content.accordion || {};
+
+    function resto(params) {
+      return params.AccordionMenu.map((item) => item)
+    }
+    
+    globalLinksMenu.push( await globalLinksReceived.map((item) => ({
+      'title': item.title,
+      'content': resto(item)
+    })))
+
     const pageProps = {
       metaTitle,
       metaDescription,
@@ -219,6 +235,7 @@ export async function getStaticProps({ params }) {
       accordion: accordionContent,
       component: storyData.component,
       preview: false,
+      globalLinksMenu
     };
 
     console.log('Processed Page Props:', pageProps);

@@ -78,7 +78,7 @@ const HomeDynamic = ({ pageContent, metaTitle, metaDescription, canonicalUrl, br
         </div>
         {gridArray && gridArray.length > 0 && (
           <div className="mdn-Row">
-            <div className="mdn-Col-xs mdn-u-padding--xs">
+            <div className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
               <Grid gridData={gridArray} />
             </div>
           </div>

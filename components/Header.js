@@ -27,7 +27,7 @@ export default function Header(headerProps) {
     {
       tag: 'a',
       'aria-label': 'pcd',
-      href: '#',
+      href: 'https://www.claro.com.br/institucional/regulatorio/acessibilidade',
       icon: 'pcd',
       title: 'Conheça as iniciativas de Acessibilidade da Claro'
     },

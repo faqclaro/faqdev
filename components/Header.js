@@ -1,6 +1,14 @@
-import { Header } from 'mondrian-react'
+import { Header } from 'mondrian-react';
+import { useState } from 'react';
 
 export default function Sample() {
+  const [mode, setMode] = useState('contrast');
+
+  const toggleTheme = () => {
+    setMode(mode === 'contrast' ? 'claro' : 'contrast');
+    window.MondrianReact.setTheme(mode);
+  }
+
   return (
     <div>
       {/* BaseComponent Code Start */}
@@ -22,7 +30,8 @@ export default function Sample() {
               tagName: 'button',
               title:
                 'Opção de acessibilidade. Clique para alterar o contraste do Portal',
-              icon: 'alto-contraste'
+              icon: 'alto-contraste',
+              onClick: toggleTheme
             }
           ]
         }}

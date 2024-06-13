@@ -36,7 +36,13 @@ export default function Header(headerProps) {
       'aria-label': 'libras',
       icon: 'libras',
       title: 'Assistente de Libras',
-      onClick: () => {}
+      onClick: () => {
+        var ht = new HT({
+        avatar: "MAYA",
+        align: "top",
+        side: "right",
+        token: "7980f66fc04e8a51e244928880939142"
+      });}
     },
     {
       tag: 'button',

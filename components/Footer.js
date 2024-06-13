@@ -1,4 +1,12 @@
 export default function Footer(footerProps) {
+  const handlerLibras = () => {
+    var ht = new HT({
+      avatar: "MAYA",
+      align: "top",
+      side: "right",
+      token: "7980f66fc04e8a51e244928880939142"
+    });
+  }
   return (
     <footer id="cms-Footer" className="cms-Footer--amx cms-bgInverse">
       <div>
@@ -17,7 +25,7 @@ export default function Footer(footerProps) {
                 </ul>
                 <div className="mdn-Footer-disclaimer">
                   <p className="mdn-Text mdn-Text--caption mdn-Text--inverse"><a className="cms-Link gtm-element-event mdn-Footer-disclaimer-link" title="Acessar Política de Privacidade" target="_self" href="https://www.claro.com.br/privacidade/politica-de-privacidade">Política de Privacidade</a><a className="cms-Link gtm-element-event mdn-Footer-disclaimer-link" title="Acessar Portal de Privacidade" target="_self" href="https://www.claro.com.br/privacidade">Portal de Privacidade</a>
-                    <button className="mdn-Footer-disclaimer-librasLink gtm-element-event cms-gtm-cortain" title="Assistente de Libras" aria-label="Assistente de Libras"><i className="mdn-Icon-libras mdn-Icon--sm" style={{color: "var(--color-neutral-lightest)", cursor: "pointer"}}></i></button>
+                    <button onClick={handlerLibras} className="mdn-Footer-disclaimer-librasLink gtm-element-event cms-gtm-cortain" title="Assistente de Libras" aria-label="Assistente de Libras"><i className="mdn-Icon-libras mdn-Icon--sm" style={{color: "var(--color-neutral-lightest)", cursor: "pointer"}}></i></button>
                   </p>
                   <p className="mdn-Text mdn-Text--caption mdn-Text--inverse"><strong>© 2024 Claro. Todos os direitos reservados. CNPJ: 40.432.544/0001-47 - <addres className="inline">Rua Henri Dunant, 780 - São Paulo - SP</addres></strong></p>
                 </div>

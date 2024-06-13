@@ -49,6 +49,7 @@ a {
 }
 main{
   flex-grow: 1;
+  margin-bottom: 2rem;
 }
 
 

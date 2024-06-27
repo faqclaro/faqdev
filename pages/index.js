@@ -1,4 +1,4 @@
-// pages/index.js
+// 'use client'
 import Head from 'next/head';
 import Storyblok from '../storyblok-config';
 import Banner from '../components/Banner';
@@ -7,6 +7,9 @@ import SearchBar from '../components/SearchBar';
 import Accordion from '../components/Accordion';
 import Header from '../components/Header';
 import Script from "next/script";
+import SearchResults from '../components/SearchResults';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 
 export default function Home({ pageContent, globalLinksMenu }) {
   
@@ -23,6 +26,81 @@ export default function Home({ pageContent, globalLinksMenu }) {
 
   // O conteúdo do Acordeão precisa ser extraído corretamente, mas parece que você já fez isso
   const accordionContent = pageContent.Accordion;
+
+  const searchParams = useSearchParams();
+  const search = searchParams.get('pesquisa');
+  
+
+  
+  const initialized = useRef(false);
+  useEffect(() => {
+    console.log('searchNADA: ', search);
+    if (initialized.current == true) {
+      console.log('searchTRUE: ', search);
+      console.log(initialized);
+    } else {
+      initialized.current = true
+      console.log('searchFALSE: ', search);
+    }
+  },[search]);
+
+
+
+    const SearchPage = () => {
+      return <>
+        <div className="mdn-Container">
+          <div className="mdn-Row">
+            <div className="mdn-Col-xs mdn-u-padding--sm mdn-u-marginTop--xxxs">
+              <SearchBar placeholder={searchPlaceholder || "Digite sua busca"} />
+            </div>
+          </div>
+          <div className="mdn-Row">
+            <div className="mdn-Col-xs mdn-u-padding--sm mdn-u-marginTop--xxxs">
+              <SearchResults searchTerm={search} gridArray={gridArray}/>
+            </div>
+          </div>
+        </div>
+      </>
+    }
+
+
+    const HomePage = ()=> {
+      return <>
+        {bannerHero}
+        <div className="mdn-Container">
+          <div className="mdn-Row">
+            <div className="mdn-Col-xs mdn-u-padding--sm mdn-u-marginTop--xxxs">
+              <SearchBar placeholder={searchPlaceholder || "Digite sua busca"} />
+            </div>
+          </div>
+          <div className="mdn-Row">
+            <div className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
+              <h2 className="mdn-Heading mdn-Heading--sm">{title}</h2>
+            </div>
+          </div>
+          {gridArray && gridArray.length > 0 && (
+            <div className="mdn-Row">
+              <div className="mdn-Col-xs mdn-u-padding--xs">
+                <Grid gridData={gridArray} />
+              </div>
+            </div>
+          )}
+          <div className="mdn-Row">
+            <div className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
+              <h2 className="mdn-Heading mdn-Heading--sm">{title_2}</h2>
+            </div>
+          </div>
+          <div className="mdn-Row">
+            <div className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
+              <Accordion items={accordionItems} />
+            </div>
+          </div>
+          
+        </div>
+      </>
+    }
+
+
 
   return (
     <main>
@@ -43,41 +121,12 @@ export default function Home({ pageContent, globalLinksMenu }) {
         onLoad={() => {}}
       />
       <Header {...globalLinksMenu}/>
-      {bannerHero}
-      <div className="mdn-Container">
-        <div className="mdn-Row">
-          <div className="mdn-Col-xs mdn-u-padding--sm mdn-u-marginTop--xxxs">
-            <SearchBar placeholder={searchPlaceholder || "Digite sua busca"} />
-          </div>
-        </div>
-        <div className="mdn-Row">
-          <div className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
-            <h2 className="mdn-Heading mdn-Heading--sm">{title}</h2>
-          </div>
-        </div>
-        {gridArray && gridArray.length > 0 && (
-          <div className="mdn-Row">
-            <div className="mdn-Col-xs mdn-u-padding--xs">
-              <Grid gridData={gridArray} />
-            </div>
-          </div>
-        )}
-        <div className="mdn-Row">
-          <div className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
-            <h2 className="mdn-Heading mdn-Heading--sm">{title_2}</h2>
-          </div>
-        </div>
-        <div className="mdn-Row">
-          <div className="mdn-Col-xs mdn-u-padding--xs mdn-u-marginTop--xxxs">
-            <Accordion items={accordionItems} />
-          </div>
-        </div>
-      </div>
+      {search ? <SearchPage/> : <HomePage/>}
     </main>
   );
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps(context) { 
   let pageContent = {};
   
   try {

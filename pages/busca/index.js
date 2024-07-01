@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 import axios from "axios";
 import Head from 'next/head';
 import Script from "next/script";
@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 import Grid from '../../components/Grid';
 import Storyblok from '../../storyblok-config';
 import { useEffect, useMemo, useState } from 'react';
-import { Container, Heading, LinkDetails, Pagination, TabSelect } from 'mondrian-react';
+import { Container, Heading, LinkDetails, Pagination, Spinner, TabSelect } from 'mondrian-react';
 
 export default function Busca({pageContent}) {
     const { grid: gridArray, globalLinksMenu } = pageContent;
@@ -22,7 +22,7 @@ export default function Busca({pageContent}) {
     const search = searchParams.get('pesquisa');
     const searchTerm = search;
 
-
+console.log('testando uma coisa aqui...');
     // Paginação
     const pageSize = 10;
     const currentTableData = useMemo(() => {
@@ -158,7 +158,7 @@ export default function Busca({pageContent}) {
 
 
     return (
-        <main>
+        <main className="flex flex-col">
             <Head>
                 <title>{`Resultado de busca para: ${searchTerm}`}</title>
                 <meta name="description" content={'metaDescription'} />
@@ -176,16 +176,17 @@ export default function Busca({pageContent}) {
                 onLoad={() => { }}
             />
             <Header {...globalLinksMenu} />
-            <div className="mdn-Container">
+            <div className="mdn-Container h-full grow flex flex-col">
                 <div className="mdn-Row">
                     <div className="mdn-Col-xs mdn-u-padding--sm mdn-u-marginTop--xxxs">
                         <SearchBar placeholder={'searchPlaceholder' || "Digite sua busca"} />
                     </div>
                 </div>
-                <div className="mdn-Row">
+                <div className="mdn-Row grow">
                     <div className="mdn-Col-xs mdn-u-padding--sm mdn-u-marginTop--xxxs">
                         {numb === 0 && <SearchNoResults />}
                         {numb === 1 && <SearchResults />}
+                        {numb === 2 && <Spinner isLoading className='relative h-full'/>}
                     </div>
                 </div>
             </div>

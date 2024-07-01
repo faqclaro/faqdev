@@ -32,10 +32,6 @@ a {
   }
 }
 
-.mdn-Input-label {
-  left: 45px; /* Alinhe com o início do texto no input */
-}
-
 .mdn-LinkList {
   background-color: white;
   padding: 10px 10px 10px 45px;
@@ -48,6 +44,8 @@ a {
   flex-direction: column;
 }
 main{
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   margin-bottom: 2rem;
 }

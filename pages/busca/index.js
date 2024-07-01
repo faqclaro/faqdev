@@ -22,7 +22,6 @@ export default function Busca({pageContent}) {
     const search = searchParams.get('pesquisa');
     const searchTerm = search;
 
-console.log('testando uma coisa aqui...');
     // Paginação
     const pageSize = 10;
     const currentTableData = useMemo(() => {
@@ -45,6 +44,7 @@ console.log('testando uma coisa aqui...');
                 setSuggestions([]);
                 setNumb(0);
             }
+            console.log('>> suggestions: ', suggestions);
         };
         fetchSuggestions(searchTerm);
     },[]);
@@ -158,17 +158,17 @@ console.log('testando uma coisa aqui...');
 
 
     return (
-        <main className="flex flex-col">
+        <main>
             <Head>
-                <title>{`Resultado de busca para: ${searchTerm}`}</title>
-                <meta name="description" content={'metaDescription'} />
+                <title>{`Busca: ${searchTerm} | Claro FAQ`}</title>
+                <meta name="description" content='Tire suas dúvidas sobre como, planos, serviços e atendimento móvel e residencial.'/>
                 <link rel="canonical" href={'canonicalUrl'} />
                 <meta name="robots" content={'noindex, nofollow'} />
                 <meta property="og:title" content={`Resultado de busca para: ${searchTerm}`} />
-                <meta property="og:description" content={'metaDescription'} />
+                <meta property="og:description" content='Tire suas dúvidas sobre como, planos, serviços e atendimento móvel e residencial.' />
                 <meta property="og:image" content="https://a.storyblok.com/f/283011/80x80/4166c5cc1b/claro-faq.webp" />
                 <meta property="og:type" content="FAQ" />
-                <meta property="og:url" content={'canonicalUrl'} />
+                <meta property="og:url" content='https://www.claro.com.br/faq/busca'/>
             </Head>
             <Script
                 src="https://plugin.handtalk.me/web/latest/handtalk.min.js"

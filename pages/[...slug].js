@@ -165,7 +165,7 @@ const CategoryPage = ({ articleContent, breadcrumb, accordion, metaTitle, metaDe
             )) : <p>No accordion data available.</p>}
           </div>
           <div className="mdn-Col-xs">
-            <h2 className="mdn-Heading mdn-Heading--sm">{articleContent.title}</h2><br></br>
+            <h1 className="mdn-Heading mdn-Heading--sm">{articleContent.title}</h1><br></br>
             <div>{htmlContent}</div>
           </div>
         </div>

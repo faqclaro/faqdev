@@ -9,7 +9,7 @@ const Shortcut = ({ shortcutData }) => {
   const iconClass = `mdn-Shortcut-icon ${shortcutData.icon}`;
 
   return (
-    <a href={shortcutData.link.url} title={shortcutData.title} className="mdn-Shortcut mdn-Shortcut--secondary">
+    <a href={shortcutData.link.url.includes('http') ? `${shortcutData.link.url}` : `/${shortcutData.link.url}`} title={shortcutData.title} className="mdn-Shortcut mdn-Shortcut--secondary">
       <i aria-hidden="true" className={iconClass}></i>
       <p className="mdn-Shortcut-text">{shortcutData.title}</p>
     </a>
